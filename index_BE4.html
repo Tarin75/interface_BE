@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide Bureau d'Etudes Frameries</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-top, .header-middle, .header-bottom {
+            background-color: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 55px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 20px;
+        }
+
+        .header-top h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 500;
+            color: #2e2e2e;
+        }
+
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            width: 30%;
+            margin-right: 10px;
+        }
+
+        .header-right img {
+            height: 40px;
+        }
+
+        .header-middle {
+            background-color: #007BFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            top: 60px;
+            z-index: 999;
+        }
+
+        .header-middle a {
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .header-middle a:hover {
+            background-color: #0056b3;
+        }
+
+        .header-middle a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: yellow;
+        }
+
+        .header-bottom {
+            background-color: #00b4d8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            top: 115px;
+            z-index: 998;
+        }
+
+        .header-bottom a, .header-bottom button {
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            height: 100%;
+            position: relative;
+        }
+
+        .header-bottom a:hover, .header-bottom button:hover {
+            background-color: #009ec3;
+        }
+
+        .header-bottom a:hover::after, .header-bottom button:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgb(255, 217, 0);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #00b4d8;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #009ec3;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #009ec3;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin-top: 175px; /* Adjusted margin to account for fixed headers */
+        }
+
+        .content {
+            max-width: 1200px; /* Adjusted max-width */
+            width: 100%;
+            border-radius: 8px;
+            background-color: rgba(245, 245, 245, 0.9); /* Semi-transparent background to make text readable */
+            box-shadow: none; /* Removes shadow */
+            overflow: hidden;
+            padding: 0; /* Removes padding */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tile-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center tiles horizontally */
+            align-items: center; /* Center tiles vertically */
+            margin-top: 20px;
+        }
+
+        .tile {
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            padding: 10px;
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+            margin: 10px; /* Added margin for better spacing */
+        }
+
+        .tile img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .tile:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile-container:hover .tile:not(:hover) {
+            filter: blur(3px);
+        }
+
+        .welcome-text {
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+            max-width: 800px;
+            line-height: 1.6;
+            margin: 0 auto;
+            padding: 20px;
+            font-weight: 300;
+            background-color: rgba(245, 245, 245, 0.8); /* Transparent background */
+            border-radius: 8px;
+        }
+
+        .sub-dropdown {
+            position: relative;
+        }
+
+        .sub-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #00b4d8;
+            min-width: 160px;
+            left: 100%;
+            top: 0;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .sub-dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .sub-dropdown-content a:hover {
+            background-color: #009ec3;
+        }
+
+        .dropdown-content .sub-dropdown:hover .sub-dropdown-content {
+            display: block;
+        }
+
+        .person-description {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .person-description img {
+            height: 200px;
+            width: 200px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .person-description p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 175px);
+            overflow-y: auto; /* Adds vertical scroll if needed */
+            display: flex;
+            justify-content: center;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        form:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            display: none;
+        }
+        h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], select, input[type="button"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]::placeholder, textarea::placeholder {
+            color: #bbb;
+        }
+        input[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        select:focus, input[type="text"]:focus, textarea:focus {
+            border-color: #80bdff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .dossier-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .checkbox-inline {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .button-container {
+            margin-top: 25px;
+        }
+        .form-group {
+            display: flex;
+            gap: 20px;
+        }
+        .form-group > div {
+            flex: 1;
+        }
+
+        /* Styles for CTM form */
+        .form-group.ctm-form {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 80%; /* élargi la largeur */
+            margin-left: auto; /* Centre horizontalement */
+            margin-right: auto; /* Centre horizontalement */
+        }
+        .ctm-columns {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .ctm-column {
+            width: 48%;
+        }
+        .ctm-group {
+            margin-bottom: 20px;
+        }
+        .popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: rgba(255, 166, 0, 0.418); /* Jaune/orange avec 70% de transparence */
+            border: 1px solid #ccc;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1000;
+            cursor: move;
+        }
+        .popup p span#ctm-result {
+            font-weight: bold;
+        }
+        .popup p {
+            margin: 0;
+        }
+        .popup button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px; /* Réduit la taille des boutons */
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px; /* Décale les boutons vers le bas */
+        }
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+        #documents-ctm-button {
+            margin-left: 10px; /* Espace entre les boutons */
+        }
+    </style>
+    <script>
+        // Automatically show the sub-navigation for 'global' on load
+        window.onload = function() {
+            showSubNav('global');
+            showDefaultContent();
+        };
+
+        function resetMainContent() {
+            document.getElementById('mainContent').innerHTML = '';
+        }
+
+        function showPowalcoButton() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="tile-container">
+                    <div class="tile" onclick="openPowalcoFile()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/pv_powalco.jpg" alt="PV Powalco">
+                    </div>
+                </div>
+            `;
+        }
+
+        function showCWAPEButton() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="tile-container">
+                    <div class="tile" onclick="openCWAPEfile()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/cwape.jpg" alt="Tableau CWAPE">
+                    </div>
+                </div>
+            `;
+        }
+
+        
+        function loadCTMAide() {
+            resetMainContent();
+            fetch('CTM1.4.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('mainContent').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading CTM1.4.html:', error);
+                    document.getElementById('mainContent').innerHTML = '<p>Erreur lors du chargement du contenu.</p>';
+                });
+        }
+
+
+        function showLinks() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="tile-container">
+                    <div class="tile" onclick="openInfores()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/infores.png" alt="Infores">
+                    </div>
+                    <div class="tile" onclick="openCronos()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/cronos.png" alt="Cronos">
+                    </div>
+                    <div class="tile" onclick="openHydraulics()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/spw.png" alt="Voies hydrauliques">
+                    </div>
+                    <div class="tile" onclick="openBDES()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/bdes.jpg" alt="BDES">
+                    </div>
+                    <div class="tile" onclick="openSharepoint()">
+                        <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/sharepoint.png" alt="SharePoint ST/BE">
+                    </div>
+                </div>
+            `;
+        }
+
+        function openPowalcoFile() {
+            const filePath = '\\\\ores.local\\dfsroot\\06_0024\\20_EXPLOITA\\06_STBE\\03_SPECIFIQ\\00. PROCEDURES - FORMATIONS - LIENS\\PV_Powalco_2024.docx';
+            window.open(filePath, '_blank');
+        }
+
+        function openCWAPEfile() {
+            const filePath = '\\\\ores.local\\dfsroot\\06_0024\\20_EXPLOITA\\06_STBE\\03_SPECIFIQ\\07. CWAPE\\Dérogations pour Non enfouissement - Cat 1\\2024\\Récapitulatif BTA dérog cat 1 - 2024.xlsx';
+            window.open(filePath, '_blank');
+        }
+
+        function openInfores() {
+            window.open('http://intranet.ores.net/Documents/InfORES.aspx', '_blank');
+        }
+
+        function openCronos() {
+            window.open('https://cronos.ores.net/Accueil.aspx', '_blank');
+        }
+
+        function openHydraulics() {
+            window.open('https://geoapps.wallonie.be/Cigale/Public/#VIEWER=ATLAS_CENN#BBOX=124497.44925726434,128572.04073978063,127277.56545291167,129492.13238204554', '_blank');
+        }
+
+        function openBDES() {
+            window.open('http://bdes.spw.wallonie.be/portal/#BBOX=144781.46624303827,144975.40621425156,125135.30332356802,125235.58060745592', '_blank');
+        }
+
+        function openSharepoint() {
+            window.open('https://oresonline.sharepoint.com/sites/D-Res/SitePages/M%C3%A9tier-STBE.aspx?csf=1&web=1&e=9TK9ZD&CID=fc4e3cae-1a5e-4def-b261-c5240c7349f8', '_blank');
+        }
+
+        function showCTM() {
+            resetMainContent();
+            showCTMPage();
+        }
+
+        function showCTMAide() {
+            resetMainContent();
+            fetch('file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/CTM1.4.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('mainContent').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading the file:', error));
+        }
+
+        function loadOrgFlag8Ok() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="iframe-container">
+                    <iframe src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/organigramme/org_flag8_ok.html"></iframe>
+                </div>
+            `;
+        }
+
+        function openFormPage() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <div>
+                            <label for="commune">Commune :</label>
+                            <select id="commune" name="commune" onchange="updateLocalities()">
+                                <option value="">Sélectionnez une commune</option>
+                                <option value="Anderlues">Anderlues</option>
+                                <option value="Binche">Binche</option>
+                                <option value="Boussu">Boussu</option>
+                                <option value="Braine-le-Comte">Braine-le-Comte</option>
+                                <option value="Chapelle-lez-Herlaimont">Chapelle-lez-Herlaimont</option>
+                                <option value="Colfontaine">Colfontaine</option>
+                                <option value="Dour">Dour</option>
+                                <option value="Estinnes">Estinnes</option>
+                                <option value="Fontaine-l'Evêque">Fontaine-l'Evêque</option>
+                                <option value="Frameries">Frameries</option>
+                                <option value="Hensies">Hensies</option>
+                                <option value="Honnelles">Honnelles</option>
+                                <option value="Jurbise">Jurbise</option>
+                                <option value="La Louvière">La Louvière</option>
+                                <option value="Le Roeulx">Le Roeulx</option>
+                                <option value="Manage">Manage</option>
+                                <option value="Mons">Mons</option>
+                                <option value="Morlanwelz">Morlanwelz</option>
+                                <option value="Quaregnon">Quaregnon</option>
+                                <option value="Quévy">Quévy</option>
+                                <option value="Saint-Ghislain">Saint-Ghislain</option>
+                                <option value="Quièvrain">Quièvrain</option>
+                                <option value="Seneffe">Seneffe</option>
+                                <option value="Soignies">Soignies</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="localite">Localité :</label>
+                            <select id="localite" name="localite">
+                                <option value="">Sélectionnez une localité</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="adresse">Adresse :</label>
+                            <input type="text" id="adresse" name="adresse" placeholder="Nom de la Rue">
+                        </div>
+                        <div>
+                            <label for="agent">Agent demandeur :</label>
+                            <select id="agent" name="agent">
+                                <option value="">Sélectionnez un agent</option>
+                                <option value="Benoit">Benoit</option>
+                                <option value="Christophe">Christophe</option>
+                                <option value="Fabien">Fabien</option>
+                                <option value="François Xavier">François Xavier</option>
+                                <option value="Johan">Johan</option>
+                                <option value="Loïc">Loïc</option>
+                                <option value="Marco">Marco</option>
+                                <option value="Michel">Michel</option>
+                                <option value="Thomas C">Thomas C</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <h2>Energies</h2>
+                            <div class="checkbox-group">
+                                <label class="checkbox-inline"><input type="checkbox" name="energies" value="Gaz"> Gaz</label>
+                                <label class="checkbox-inline"><input type="checkbox" name="energies" value="Electricité"> Electricité</label>
+                                <label class="checkbox-inline"><input type="checkbox" name="energies" value="Eclairage public"> Eclairage public</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="type-demande">Type de demande :</label>
+                            <select id="type-demande" name="type-demande">
+                                <option value="">Sélectionnez un type de demande</option>
+                                <option value="Interne">Interne</option>
+                                <option value="Externe">Externe</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="description">Description de la demande :</label>
+                            <textarea id="description" name="description" rows="4" placeholder="Décrivez votre demande ici..."></textarea>
+                        </div>
+                        <div>
+                            <label for="solution">Solution technique :</label>
+                            <textarea id="solution" name="solution" rows="4" placeholder="Décrivez la solution technique ici..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="demandeur">Demandeur :</label>
+                            <input type="text" id="demandeur" name="demandeur" placeholder="Client ou ST/BE, etc">
+                        </div>
+                        <div>
+                            <label for="dossiers-lies">Dossiers liés :</label>
+                            <div class="dossier-inputs">
+                                <input type="text" class="dossier-input" maxlength="6">
+                                <input type="text" class="dossier-input" maxlength="6">
+                                <input type="text" class="dossier-input" maxlength="6">
+                                <input type="text" class="dossier-input" maxlength="6">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 style="font-size: 16px;">Type de Dossier</h2>
+                    <label class="checkbox-inline"><input type="checkbox" id="dossier-simplifie"> Dossier simplifié</label>
+                    <label class="checkbox-inline"><input type="checkbox" id="dossier-exploitation"> Dossier Exploitation</label>
+                    <label class="checkbox-inline"><input type="checkbox" id="spw"> SPW</label>
+                    <label class="checkbox-inline"><input type="checkbox" id="urgent"> URGENT</label>
+
+                    <div class="button-container">
+                        <input type="button" value="Envoyer par Email" onclick="sendEmail()">
+                    </div>
+                </form>
+            `;
+        }
+
+        function showJustine() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="person-description">
+                    <img src="file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/visage.png" alt="Justine">
+                    <p>Boit beaucoup d'eau et aime embêter son papa du bureau.</p>
+                </div>
+            `;
+        }
+
+        function showSubNav(section) {
+            const subNav = document.getElementById('subNav');
+            subNav.innerHTML = ''; // réinit le contenu du précédent sub-nav 
+
+            switch (section) {
+                case 'global':
+                    subNav.innerHTML = `
+                        <a href="#" onclick="showLinks()">Liens utiles</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Organigrammes</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="loadOrgFlag8Ok()">Cabines</a>
+                                <a href="#" onclick="showUnderConstruction('Page Autre en cours de développement')">Autre</a>
+                            </div>
+                        </div>
+                        <a href="#" onclick="openFormPage()">Création Dossier</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Kifékoi</button>
+                            <div class="dropdown-content">
+                                <div class="sub-dropdown">
+                                    <a href="#">BOT</a>
+                                    <div class="sub-dropdown-content">
+                                        <a href="#">Céline</a>
+                                        <a href="#">Ermélinda</a>
+                                        <a href="#">Livia</a>
+                                        <a href="#">Sandrine</a>
+                                        <a href="#">Séverine</a>
+                                        <a href="#">Stéphanie</a>
+                                    </div>
+                                </div>
+                                <div class="sub-dropdown">
+                                    <a href="#">ST</a>
+                                    <div class="sub-dropdown-content">
+                                        <a href="#">Gianni</a>
+                                        <a href="#">Lorent</a>
+                                        <a href="#">Ludo</a>
+                                        <a href="#">Maylis</a>
+                                        <a href="#">Thomas G</a>
+                                    </div>
+                                </div>
+                                <div class="sub-dropdown">
+                                    <a href="#">BE</a>
+                                    <div class="sub-dropdown-content">
+                                        <a href="#" onclick="showJustine()">Justine</a>
+                                        <a href="#">Benoit</a>
+                                        <a href="#">Christophe C</a>
+                                        <a href="#">Fabien</a>
+                                        <a href="#">François-Xavier</a>
+                                        <a href="#">Johan</a>
+                                        <a href="#">Loïc</a>
+                                        <a href="#">Marco</a>
+                                        <a href="#">Michel</a>
+                                        <a href="#">Thomas C</a>
+                                    </div>
+                                </div>
+                                <div class="sub-dropdown">
+                                    <a href="#">EP</a>
+                                    <div class="sub-dropdown-content">
+                                        <a href="#">Anne-Laure</a>
+                                        <a href="#">Emmanuelle</a>
+                                        <a href="#">Maxime</a>
+                                        <a href="#">Quentin</a>
+                                        <a href="#">Sophie</a>
+                                    </div>
+                                </div>
+                                <div class="sub-dropdown">
+                                    <a href="#">Ext</a>
+                                    <div class="sub-dropdown-content">
+                                        <a href="#">Carmen</a>
+                                        <a href="#">Christophe G</a>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                    `;
+                    showDefaultContent();
+                    break;
+                case 'bureau':
+                    subNav.innerHTML = `
+                        <a href="#" onclick="showUnderConstruction('Intégration OneNote BE en construction')">One Note BE</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Documents</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showDevisTile()">Devis</a>
+                                <a href="#" onclick="loadOrgFlag8Ok()">Cabines</a>
+                                <a href="#" onclick="showCWAPEButton()">CWAPE</a>
+                                <a href="#" onclick="showPowalcoButton()">POWALCO</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">Electricité</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showUnderConstruction('Page Haute tension en cours de développement')">Haute tension</a>
+                                <a href="#" onclick="showUnderConstruction('Page Basse tension en cours de développement')">Basse tension</a>
+                                <a href="#" onclick="showUnderConstruction('Page Raccordements en cours de développement')">Raccordements</a>
+                                <a href="#" onclick="showPPTDoc()">PPT Doc Méthode</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">Gaz</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showUnderConstruction('Page Moyenne pression en cours de développement')">Moyenne pression</a>
+                                <a href="#" onclick="showUnderConstruction('Page Basse pression en cours de développement')">Basse pression</a>
+                                <a href="#" onclick="showUnderConstruction('Page Raccordements en cours de développement')">Raccordements</a>
+                                <a href="#" onclick="showPPTDoc()">PPT Doc Méthode</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">CTM</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showCTMTiles()">Documents CTM</a>
+                                <a href="#" onclick="showCTMAide()">Aide</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">Autorisations</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showUnderConstruction('Page SPW en cours de développement')">SPW</a>
+                                <a href="#" onclick="showUnderConstruction('Page Cours d\'eau en cours de développement')">Cours d'eau</a>
+                                <a href="#" onclick="showUnderConstruction('Page Infrabel en cours de développement')">Infrabel</a>
+                            </div>
+                        </div>
+                    `;
+                    showImage('bureau');
+                    break;
+                case 'solutions':
+                    subNav.innerHTML = `
+                        <a href="#" onclick="showUnderConstruction('Intégration OneNote ST en construction')">One Note ST</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Electricité</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showUnderConstruction('Page Haute tension en cours de développement')">Haute tension</a>
+                                <a href="#" onclick="showUnderConstruction('Page Basse tension en cours de développement')">Basse tension</a>
+                                <a href="#" onclick="showUnderConstruction('Page Raccordements en cours de développement')">Raccordements</a>
+                                <a href="#" onclick="showPPTDoc()">PPT Doc Méthode</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">Gaz</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="showUnderConstruction('Page Moyenne pression en cours de développement')">Moyenne pression</a>
+                                <a href="#" onclick="showUnderConstruction('Page Basse pression en cours de développement')">Basse pression</a>
+                                <a href="#" onclick="showUnderConstruction('Page Raccordements en cours de développement')">Raccordements</a>
+                                <a href="#" onclick="showPPTDoc()">PPT Doc Méthode</a>
+                            </div>
+                        </div>
+                    `;
+                    showImage('solutions');
+                    break;
+                case 'eclairage':
+                    subNav.innerHTML = `
+                        <a href="#" onclick="showUnderConstruction('Intégration OneNote Eclairage en construction')">One Note Eclairage</a>
+                    `;
+                    showDefaultContent();
+                    break;
+                case 'bot':
+                    subNav.innerHTML = `
+                        <a href="#" onclick="showUnderConstruction('Intégration OneNote BOT en construction')">One Note BOT ST/BE</a>
+                        <a href="#" onclick="showUnderConstruction('Page BOT en cours de développement')">En construction</a>
+                    `;
+                    showImage('bot');
+                    break;
+                default:
+                    subNav.innerHTML = `
+                        <a href="#" onclick="showLinks()">Liens utiles</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Organigrammes</button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="loadOrgFlag8Ok()">Cabines</a>
+                                <a href="#" onclick="showUnderConstruction('Page Autre en cours de développement')">Autre</a>
+                            </div>
+                        </div>
+                        <a href="#" onclick="openFormPage()">Création Dossier</a>
+                    `;
+            }
+        }
+
+        function showUnderConstruction(message) {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `<h2>${message}</h2>`;
+        }
+
+        function showUnderConstructionWithButton(message) {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <h2>${message}</h2>
+                <div class="input-section">
+                    <button onclick="sendEmail()">Envoi email</button>
+                </div>
+            `;
+        }
+
+        function sendEmail() {
+            window.location.href = "mailto:someone@example.com";
+        }
+
+        function createDossier() {
+            alert('Fonctionnalité de création de dossier en cours de développement.');
+        }
+
+        function showDefaultContent() {
+            document.getElementById('mainContent').innerHTML = `
+                <div id="defaultContent">
+                    <p class="welcome-text">
+                        Bienvenue sur la page d'aide su service ST/BE.<br>
+                        Cette page a pour but de centraliser un maximum d'outils que nous utilisons au quotidien. Des aides à la décision suivant différents organigrammes sont également implémentés afin de faciliter nos tâches.<br>
+                        Attention, tout cela ne reste qu'un outil et ne remplace en rien les documents méthodes et compétences d'un agent.
+                    </p>
+                </div>
+            `;
+        }
+
+        function showImage(menu) {
+            resetMainContent();
+            let imagePath = '';
+            switch (menu) {
+                case 'bureau':
+                    imagePath = 'file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/BE.jpg';
+                    break;
+                case 'solutions':
+                    imagePath = 'file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/ST.jpg';
+                    break;
+                case 'bot':
+                    imagePath = 'file:///C:/Users/FEJ342/OneDrive%20-%20ORESOnline/Programmation/HTML/CTM/dev/images/bot.jpg';
+                    break;
+                default:
+                    imagePath = '';
+            }
+            if (imagePath) {
+                document.getElementById('mainContent').innerHTML = `
+                    <img src="${imagePath}" alt="${menu} Image" style="width: 100%; height: auto;">
+                `;
+            }
+        }
+
+        function showDevisTile() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="tile-container">
+                    <div class="tile" onclick="openDevisFile()">
+                        Devis
+                    </div>
+                </div>
+            `;
+        }
+
+        function openDevisFile() {
+            const filePath = '\\\\ores.local\\dfsroot\\06_0040\\40_BUREAUTIQUE\\07_Prod_Feuille_Devis_Relevé\\TRI-000-F25 Feuille Devis.xlsm';
+            window.open(filePath, '_blank');
+        }
+
+        function showPPTDoc() {
+            resetMainContent();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="iframe-container">
+                    <iframe src="https://oresonline.sharepoint.com/:p:/r/sites/Technologie/_layouts/15/Doc.aspx?sourcedoc=%7B07323F07-5DE2-483C-A77F-3E95D796D278%7D&file=https%3A%2F%2Foresonline.sharepoint.com%2Fsites%2FTechnologie%2FSiteAssets%2FNavElec%2520par%2520asset%2520V1.pptx&action=interactivepreview&defaultitemopen=1&wdeaa=0&wdAr=1.7777777&wdslideindex=1"></iframe>
+                </div>
+            `;
+        }
+
+        function updateLocalities() {
+            var communeSelect = document.getElementById('commune');
+            var localiteSelect = document.getElementById('localite');
+            var selectedCommune = communeSelect.value;
+
+            var localities = {
+                'Anderlues': ['Anderlues'],
+                'Binche': ['Binche', 'Bray', 'Buvrinnes', 'Epinois', 'Waudrez', 'Leval-Trahegnies', 'Péronnes-lez-Binche', 'Ressaix'],
+                'Boussu': ['Boussu', 'Hornu'],
+                'Braine-le-Comte': ['Braine-le-Comte', 'Hennuyères', 'Henripont', 'Petit-Roeulx-lez-Braine', 'Ronquières', 'Steenkerke'],
+                'Mons': ['Ghlin', 'Jemappes', 'Mons']
+            };
+
+            localiteSelect.innerHTML = '';
+
+            if (selectedCommune) {
+                var options = localities[selectedCommune];
+                for (var i = 0; i < options.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = options[i];
+                    option.textContent = options[i];
+                    localiteSelect.appendChild(option);
+                }
+            }
+        }
+
+        function sendEmail() {
+            var typeDemande = document.getElementById('type-demande').value;
+            var commune = document.getElementById('commune').value;
+            var localite = document.getElementById('localite').value;
+            var adresse = document.getElementById('adresse').value;
+            var agent = document.getElementById('agent').value;
+            var energies = Array.from(document.querySelectorAll('input[name="energies"]:checked')).map(el => el.value).join(', ');
+            var description = document.getElementById('description').value;
+            var solution = document.getElementById('solution').value;
+            var demandeur = document.getElementById('demandeur').value;
+            var dossiersLies = Array.from(document.querySelectorAll('.dossier-input')).map(el => el.value).join(', ');
+            var dossierSimplifie = document.getElementById('dossier-simplifie').checked ? 'Oui' : 'Non';
+            var dossierExploitation = document.getElementById('dossier-exploitation').checked ? 'Oui' : 'Non';
+            var spw = document.getElementById('spw').checked ? 'Oui' : 'Non';
+            var urgent = document.getElementById('urgent').checked;
+
+            var subject = urgent ? 'URGENT - Création de dossier CRONOS' : 'Création de dossier CRONOS';
+            var body = 'Bonjour,%0D%0A%0D%0A' +
+                       'Ci dessous les informations nécessaires à la création d\'un nouveau dossier Cronos.%0D%0A' +
+                       'Merci,%0D%0A%0D%0A' +
+                       'Type de demande :%09' + typeDemande + '%0D%0A' +
+                       'Commune :%09' + commune + '%0D%0A' +
+                       'Localité :%09' + localite + '%0D%0A' +
+                       'Adresse :%09' + adresse + '%0D%0A' +
+                       'Agent Demandeur :%09' + agent + '%0D%0A' +
+                       'Energies :%09' + energies + '%0D%0A' +
+                       'Description de la demande :%09' + description + '%0D%0A' +
+                       'Solution technique :%09' + (urgent ? 'TRAN - ' + solution : solution) + '%0D%0A' +
+                       'Demandeur :%09' + demandeur + '%0D%0A' +
+                       'Dossiers liés :%09' + dossiersLies + '%0D%0A' +
+                       'Dossier simplifié :%09' + dossierSimplifie + '%0D%0A' +
+                       'Dossier Exploitation :%09' + dossierExploitation + '%0D%0A' +
+                       'SPW :%09' + spw;
+
+            window.location.href = 'mailto:tarin.lc@gmail.com?subject=' + subject + '&body=' + body + '&importance=high';
+        }
+    </script>
+</head>
+<body>
+    <div class="header-top">
+        <div class="header-left">
+            <img src="C:/Users/FEJ342/OneDrive - ORESOnline/Programmation/HTML/logo_ores_400px.png" alt="Ores Logo">
+            <h1>Aide Bureau d'Etudes Frameries</h1>
+        </div>
+        <div class="header-right">
+            <img src="C:/Users/FEJ342/OneDrive - ORESOnline/Programmation/HTML/header-illu-desktop.png" alt="Header Illustration">
+        </div>
+    </div>
+    <div class="header-middle">
+        <a href="#" onclick="showSubNav('global')">Global</a>
+        <a href="#" onclick="showSubNav('bureau')">Bureau d'études</a>
+        <a href="#" onclick="showSubNav('solutions')">Solutions techniques</a>
+        <a href="#" onclick="showSubNav('eclairage')">Eclairage Public</a>
+        <a href="#" onclick="showSubNav('bot')">BOT ST/BE</a>
+    </div>
+    <div class="header-bottom" id="subNav"></div>
+    <div class="container" id="container">
+        <div class="content">
+            <main id="mainContent">
+                <div id="defaultContent">
+                    <p class="welcome-text">
+                        Bienvenue sur la page d'aide su service ST/BE.<br>
+                        Cette page a pour but de centraliser un maximum d'outils que nous utilisons au quotidien. Des aides à la décision suivant différents organigrammes sont également implémentés afin de faciliter nos tâches.<br>
+                        Attention, tout cela ne reste qu'un outil et ne remplace en rien les documents méthodes et compétences d'un agent.
+                    </p>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
